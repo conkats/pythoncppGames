@@ -3,3 +3,9 @@
 
 #Command to note
 git status
+
+#Add the file to repo-main.branch
+git add --all
+
+#commit the changes
+#git commit
