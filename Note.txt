@@ -1,0 +1,5 @@
+#How to set up github and git on local
+
+
+#Command to note
+git status
