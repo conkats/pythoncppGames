@@ -7,5 +7,15 @@ git status
 #Add the file to repo-main.branch
 git add --all
 
+#first commit the file
+git commit -m "Add notes for git"
+
+#configure for first time
+git config --global user.email "useremail"
+git config --global user.name "conkats"
+
 #commit the changes
-#git commit
+git commit
+
+#push to github
+git push origin main
