@@ -20,7 +20,7 @@ git commit
 git push origin main
 <<<<<<< HEAD
 
-#sfml for windows graphics/API
+#sfml for windows graphics/API in linux alogn with its documentation
 https://www.sfml-dev.org/learn.php
 
 #to update the forked (clone repo) to the local machine
@@ -42,5 +42,4 @@ git checkout master
 # other branch:
 
 git rebase upstream/master
-=======
->>>>>>> 73aa777dbd01378a4706000e3b8acadee3fc8aec
+
