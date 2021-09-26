@@ -1,2 +1,2 @@
-./blackBoxRedCircle/sfml-app
-./blackBoxRedCircle/main.o
+blackBoxRedCircle/sfml-app
+blackBoxRedCircle/main.o
