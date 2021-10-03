@@ -37,6 +37,20 @@ public:
         y = y + vy;
         circle.setPosition(x,y);
     }
+    // Adding moveUp() function to test keyPressed events
+    // This will not be needed for the ball class but for the paddles
+    void moveUp()
+    {
+        y = y-10;
+        circle.setPosition(x,y);
+    }
+    // Adding moveDown() function to test keyPressed events
+    // This will not be needed for the ball class but for the paddles
+    void moveDown()
+    {
+        y = y+10;
+        circle.setPosition(x,y);
+    }
     // Update speed if ball goes beyong the playing area
     void updateSpeed(int frameWidth, int frameHeight)
     {
@@ -72,8 +86,24 @@ int main()
         // Check if there is an event
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-            window.close();
+            switch(event.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::KeyPressed:
+                if(event.key.code == sf::Keyboard::Up)
+                {
+                    //ball1.circle.move(0,-5);
+                    ball1.moveUp();
+                }
+                if(event.key.code == sf::Keyboard::Down )
+                {
+                    //ball1.circle.move(0,5);
+                    ball1.moveDown();
+                }
+                break;
+            }
         }
 
         window.clear();
