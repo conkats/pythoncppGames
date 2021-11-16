@@ -1,0 +1,8 @@
+#This file contains the list of resources for building a game
+
+#youtube:
+https://www.youtube.com/channel/UCqXrJmvJAvFnGyLGSBnk45g
+https://www.youtube.com/channel/UCvjgXvBlbQiydffZU7m1_aw
+
+#sfml
+https://www.sfml-dev.org/tutorials/2.5/start-linux.php
