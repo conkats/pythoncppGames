@@ -1,3 +1,4 @@
-g++ -c pongGame.cpp
-g++ pongGame.o -o pongGame-app -lsfml-graphics -lsfml-window -lsfml-system
-./pongGame-app
+g++ -c main.cpp
+g++ main.o -o runPongGame -lsfml-graphics -lsfml-window -lsfml-system
+./runPongGame
+
