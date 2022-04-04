@@ -1,7 +1,6 @@
 blackBoxRedCircle/sfml-app
 blackBoxRedCircle/main.o
-pongGame/main.o
-tests
+pongGame/runPongGame
+./pongGame/main.o
 .vscode/c_cpp_properties.json
 .vscode/settings.json
-pongGame/runPongGame
