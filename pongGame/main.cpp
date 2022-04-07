@@ -4,9 +4,6 @@
 #include <ctime>
 #include <math.h>
 
-
-
-
 class paddle
 {
 public:
@@ -42,6 +39,7 @@ public:
         rectangule.setOrigin(sf::Vector2f(width/2, height/2));
 
         // Settings that change between players
+        // Defining the paddle size for each player
         if (which==0)
         {
             // X coordinate
@@ -69,7 +67,7 @@ public:
     }
 
     // Method to move up the paddle
-    // Note 0,0 is the top left corner of the frame window
+    // Note (0,0) is the top left corner of the frame window
     void moveUp()
     { 
         if( y > (minY+height/2) )
@@ -77,7 +75,6 @@ public:
             y=y-vy;
             //rectangule.setPosition(rectangule.getPosition().x,rectangule.getPosition().y-vy);
             rectangule.setPosition(x,y);
-
         }
     }
 
@@ -91,9 +88,6 @@ public:
         }
     }
 };
-
-
-
 
 class ball
 {
@@ -155,8 +149,6 @@ public:
 };
 
 
-
-
 int main()
 {
     // Setting game frame size
@@ -206,7 +198,7 @@ int main()
 
 
     // Creating the window to render the game on screen
-    // NOTE: VideoMode is a class! and myVideosize is the object!
+    // NOTE: VideoMode is a class and myVideosize is the object!
     sf::VideoMode myVideosize(frameWidth, frameHeight);
     sf::RenderWindow window(myVideosize,"PongGame!");
 
@@ -373,7 +365,6 @@ int main()
             // DAA: We have to add a beautiful scoreboard within the game to display the score
             std::cout <<"Player 2 scored:"<<player1score << std::endl;
         }
-
 
         // If pause, write pause on screen.
         // NOTE: You do not need to use boolean variables with equal sign.
