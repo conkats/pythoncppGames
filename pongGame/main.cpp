@@ -146,6 +146,44 @@ public:
             vy = vy * -1 ;
         }
     }  
+    //Method to detect collision
+    void collision(paddle& paddleObject, 
+                   int frameWidth, 
+                   float factor,
+                   int frameHeight )
+    {   float ballAngle=75.f;
+        float ballSpeed=400.f;
+        vx = std::cos(ballAngle)*factor;
+        vy = std::sin(ballAngle)*factor;
+
+        sf::RectangleShape topBorder;
+        topBorder.setSize(sf::Vector2f(frameWidth,paddleObject.x));
+        topBorder.setPosition(0,0);
+        sf::RectangleShape botBorder;
+        botBorder.setSize(sf::Vector2f(frameWidth,paddleObject.x));
+        botBorder.setPosition(0,frameHeight-paddleObject.x);
+
+
+        // DAA: This is essentially a collision method that should be within the ball class
+        if ((circle.getGlobalBounds().intersects(paddleObject.rectangule.getGlobalBounds())) || (circle.getGlobalBounds().intersects(paddleObject.rectangule.getGlobalBounds())))           
+        {
+            circle.move(-vx,-vy);
+            vx = -(vy);
+            ballSpeed=sqrt(pow(vy,2)+pow(vy,2));
+            ballAngle = -ballAngle;
+            ballSpeed = -ballSpeed;               
+        }
+
+        // DAA: This is essentially a collision method that should be within the ball class
+        if ((circle.getGlobalBounds().intersects(topBorder.getGlobalBounds()))||(circle.getGlobalBounds().intersects(botBorder.getGlobalBounds())))
+        {   
+            ballSpeed=sqrt(pow(vy,2)+pow(vx,2));
+            vx = -(vx);
+            ballAngle = -ballAngle;
+        }
+
+    }
+
 };
 
 
@@ -187,14 +225,14 @@ int main()
 
 
     // NOTE: These methods should go within the ball class! 
-    sf::RectangleShape topBorder;
-    topBorder.setSize(sf::Vector2f(frameWidth,paddleLeft.x));
-    topBorder.setPosition(0,0);
+    //sf::RectangleShape topBorder;
+    //topBorder.setSize(sf::Vector2f(frameWidth,paddleLeft.x));
+    //topBorder.setPosition(0,0);
  
     // NOTE: These methods should go within the ball class! 
-    sf::RectangleShape botBorder;
-    botBorder.setSize(sf::Vector2f(frameWidth,paddleLeft.x));
-    botBorder.setPosition(0,frameHeight-paddleLeft.x);
+    //sf::RectangleShape botBorder;
+    //botBorder.setSize(sf::Vector2f(frameWidth,paddleLeft.x));
+    //botBorder.setPosition(0,frameHeight-paddleLeft.x);
 
 
     // Creating the window to render the game on screen
@@ -323,24 +361,27 @@ int main()
 
            
         // Option 2 to move the ball 
-        velocity.x = std::cos(ballAngle)*factor;
-        velocity.y = std::sin(ballAngle)*factor;
-        ball1.circle.move(velocity.x,velocity.y);
+        //velocity.x = std::cos(ballAngle)*factor;
+        //velocity.y = std::sin(ballAngle)*factor;
+        //ball1.circle.move(velocity.x,velocity.y);
 
         // DAA: This is essentially a collision method that should be within the ball class
-        if ((ball1.circle.getGlobalBounds().intersects(paddleLeft.rectangule.getGlobalBounds())) || (ball1.circle.getGlobalBounds().intersects(paddleRight.rectangule.getGlobalBounds())))           
-        {
-            ball1.circle.move(-velocity.x,-velocity.y);
-            velocity.x = -(velocity.y);
-            ballAngle = -ballAngle;
-            ballSpeed = -ballSpeed;               
-        }
+        //if ((ball1.circle.getGlobalBounds().intersects(paddleLeft.rectangule.getGlobalBounds())) || (ball1.circle.getGlobalBounds().intersects(paddleRight.rectangule.getGlobalBounds())))           
+        //{
+        //    ball1.circle.move(-velocity.x,-velocity.y);
+        //    velocity.x = -(velocity.y);
+        //    ballAngle = -ballAngle;
+        //    ballSpeed = -ballSpeed;               
+        //}
+        //// DAA: This is essentially a collision method that should be within the ball class
+        //if ((ball1.circle.getGlobalBounds().intersects(topBorder.getGlobalBounds()))||(ball1.circle.getGlobalBounds().intersects(botBorder.getGlobalBounds())))
+        //{   velocity.x = -(velocity.x);
+        //    ballAngle = -ballAngle;
+        //}
 
-        // DAA: This is essentially a collision method that should be within the ball class
-        if ((ball1.circle.getGlobalBounds().intersects(topBorder.getGlobalBounds()))||(ball1.circle.getGlobalBounds().intersects(botBorder.getGlobalBounds())))
-        {   velocity.x = -(velocity.x);
-            ballAngle = -ballAngle;
-        }
+        //ball1.updateSpeed(frameWidth, frameHeight);
+        ball1.collision(paddleRight, frameWidth, factor, frameHeight);
+        ball1.collision(paddleLeft, frameWidth, factor, frameHeight);
 
         // When scoring
         if (ball1.circle.getPosition().x > paddleRight.rectangule.getPosition().x + 2*ball1.radius)
