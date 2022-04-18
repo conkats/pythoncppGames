@@ -157,9 +157,7 @@ public:
         for (int i = 0; i <=paddles.size(); i++)
         
         {     
-        //This is essentially a collision method that should be within the ball class
-            //std::cout <<paddles[i].x<< std::endl;      
-            //std::cout <<paddles[i].rectangule.getGlobalBounds().top<< std::endl;            
+        //This is essentially a collision method that should be within the ball class          
             if ((circle.getGlobalBounds().intersects(paddles[i].rectangule.getGlobalBounds())))           
             {
                 vx = -vx;
@@ -343,16 +341,16 @@ int main()
         
         // Updating paddles positions
         if (isWPressed){
-            paddleLeft.moveUp();
+            paddles[0].moveUp();
         }
         if (isSPressed){
-            paddleLeft.moveDown();
+            paddles[0].moveDown();
         }
         if (isOPressed){
-            paddleRight.moveUp();
+            paddles[1].moveUp();
         }
         if (isLPressed){
-            paddleRight.moveDown();
+            paddles[1].moveDown();
         }
 
         // Clearing the entire window
@@ -387,8 +385,6 @@ int main()
 
         
         ball1.updatePos();
-
-
         //ball1.collision(paddles, frameWidth, frameHeight);
         ball1.collision(paddles, frameWidth, frameHeight);
           
