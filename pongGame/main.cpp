@@ -132,7 +132,7 @@ public:
         circle.setPosition(x, y);
     }
 
-    // Collision method changing velocity sign
+    // Collision method changing velocity sign of the ball
     void  updateSpeed(int frameWidth, int frameHeight)
     {
         // If x position is outside the frame, change its sign
@@ -151,7 +151,6 @@ public:
     //Method to detect collision with paddle
     //stored in array-vector of paddles
     void collision(std::vector<paddle> &paddles, int frameWidth, int frameHeight)
-    //void collision(std::vector<paddle> paddles, int frameWidth, int frameHeight)
 
     {     
         for (int i = 0; i <=paddles.size(); i++)
@@ -164,22 +163,25 @@ public:
             }
         }
 
-        //if ((circle.getGlobalBounds().intersects(paddles[0].rectangule.getGlobalBounds())) )           
-        //{
-        //    vx = -vx;
-        //              
-        //}
-        //if ((circle.getGlobalBounds().intersects(paddles[1].rectangule.getGlobalBounds())) )           
-        //{
-        //    vx = -vx;
-        //              
-        //}
-
         if ( y < 0 || y >frameHeight)
         {
             vy = -vy;
         }
     }
+    // Method to restore the ball after collision and exceeding the boundary of the framewidth, paddle etc.
+    void resetBallAfterCollision(std::vector<paddle> &paddles, int frameWidth, int frameHeight)
+    {
+
+            if (circle.getPosition().x > paddles[0].rectangule.getPosition().x + 2*circle.getRadius())
+            {
+                circle.setPosition(x = frameWidth+vx, frameHeight);
+            }
+            else if (circle.getPosition().x < paddles[1].rectangule.getPosition().x - 2*circle.getRadius())
+            {
+                circle.setPosition(x = frameWidth+vx, frameHeight);
+
+            }
+    }    
 
 };
 
@@ -387,7 +389,9 @@ int main()
         ball1.updatePos();
         //ball1.collision(paddles, frameWidth, frameHeight);
         ball1.collision(paddles, frameWidth, frameHeight);
-          
+  
+        ball1.resetBallAfterCollision(paddles, frameWidth/2, frameHeight/2);
+
         // When scoring
         if (ball1.circle.getPosition().x > paddleRight.rectangule.getPosition().x + 2*ball1.radius)
         {
