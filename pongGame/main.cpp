@@ -151,7 +151,6 @@ public:
     //Method to detect collision with paddle
     //stored in array-vector of paddles
     void collision(std::vector<paddle> &paddles, int frameWidth, int frameHeight)
-
     {     
         for (int i = 0; i <=paddles.size(); i++)
         
@@ -171,16 +170,15 @@ public:
     // Method to restore the ball after collision and exceeding the boundary of the framewidth, paddle etc.
     void resetBallAfterCollision(std::vector<paddle> &paddles, int frameWidth, int frameHeight)
     {
-
-            if (circle.getPosition().x > paddles[0].rectangule.getPosition().x + 2*circle.getRadius())
-            {
-                circle.setPosition(x = frameWidth+vx, frameHeight);
-            }
-            else if (circle.getPosition().x < paddles[1].rectangule.getPosition().x - 2*circle.getRadius())
-            {
-                circle.setPosition(x = frameWidth+vx, frameHeight);
-
-            }
+        //
+        if (circle.getPosition().x > paddles[0].rectangule.getPosition().x + 2*circle.getRadius())
+        {
+            circle.setPosition(x = frameWidth+vx, frameHeight);
+        }
+        else if (circle.getPosition().x < paddles[1].rectangule.getPosition().x - 2*circle.getRadius())
+        {
+            circle.setPosition(x = frameWidth+vx, frameHeight);
+        }
     }    
 
 };
@@ -210,6 +208,7 @@ int main()
     pause.setFillColor(sf::Color::White);
     pause.setFont(font);
     pause.setString("Pause");
+
 
 
     // Starts the clock
@@ -389,33 +388,31 @@ int main()
         ball1.updatePos();
         //ball1.collision(paddles, frameWidth, frameHeight);
         ball1.collision(paddles, frameWidth, frameHeight);
-  
+        //after collision calling the reset ball to restart the game  
         ball1.resetBallAfterCollision(paddles, frameWidth/2, frameHeight/2);
 
-        // When scoring
-        if (ball1.circle.getPosition().x > paddleRight.rectangule.getPosition().x + 2*ball1.radius)
-        {
-            // DAA: We should use a player object to store its scoreboard
-            player1score++;
-            
-            // DAA: We can create a reset method within the ball class to reset its position
-            //ball1.circle.setPosition(frameHeight/2,frameWidth/2);
-
-            // DAA: We have to add a beautiful scoreboard within the game to display the score
-            //std::cout <<"Player 1 scored:"<<player1score << std::endl;
-        }
-        else if (ball1.circle.getPosition().x < paddleLeft.rectangule.getPosition().x - 2*ball1.radius)
-        {
-            // DAA: We should use a player object to store its scoreboard
-            player2score++;
- 
-            // DAA: We can create a reset method within the ball class to reset its position
-            //ball1.circle.setPosition(frameHeight/2,frameWidth/2);
-
-            // DAA: We have to add a beautiful scoreboard within the game to display the score
-            //std::cout <<"Player 2 scored:"<<player1score << std::endl;
-        }
-
+        // CK: When scoring we need to create as suggested a player class to store score, text and dispaly it 
+        //    and consider adding the pause/restart of the game as well as clock-timer
+        // as DAA suggested
+        //if (ball1.circle.getPosition().x > paddleRight.rectangule.getPosition().x + 2*ball1.radius)
+        //{
+        //    // DAA: We should use a player object to store its scoreboard
+        //    player1score++;
+        //    
+        //    // DAA: We can create a reset method within the ball class to reset its position
+        //    //ball1.circle.setPosition(frameHeight/2,frameWidth/2);
+        //    // DAA: We have to add a beautiful scoreboard within the game to display the score
+        //    //std::cout <<"Player 1 scored:"<<player1score << std::endl;
+        //}
+        //else if (ball1.circle.getPosition().x < paddleLeft.rectangule.getPosition().x - 2*ball1.radius)
+        //{
+        //    // DAA: We should use a player object to store its scoreboard
+        //    player2score++;
+        //    // DAA: We can create a reset method within the ball class to reset its position
+        //    //ball1.circle.setPosition(frameHeight/2,frameWidth/2);
+        //    // DAA: We have to add a beautiful scoreboard within the game to display the score
+        //    //std::cout <<"Player 2 scored:"<<player1score << std::endl;
+        //}
         // If pause, write pause on screen.
         // NOTE: You do not need to use boolean variables with equal sign.
         //       if ( booleanVariable == True ) { }
