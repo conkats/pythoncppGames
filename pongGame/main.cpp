@@ -3,6 +3,32 @@
 #include<string>
 #include <ctime>
 #include <math.h>
+#include <sstream>
+
+
+class Player
+{   public:
+    
+    Player(std::string imgDirectory)
+    {
+        if(!pTexture.loadFromFile(imgDirectory))
+        {
+        std::cerr << "Error loading avatar\n";
+        }
+        pSprite.setTexture(pTexture);
+    }
+    //draw texture and reference the window we want to reference/render
+    void drawPlayer(sf::RenderWindow &window, int xp, int yp, float xscal, float yscal)
+    {
+        pSprite.setPosition(xp, yp);
+        // scale the entity relatively to its current scale
+        pSprite.setScale(xscal, yscal);
+        window.draw(pSprite);
+    }
+    private:
+    sf::Texture pTexture;
+    sf::Sprite pSprite;
+};
 
 class paddle
 {
@@ -168,9 +194,10 @@ public:
         }
     }
     // Method to restore the ball after collision and exceeding the boundary of the framewidth, paddle etc.
-    void resetBallAfterCollision(std::vector<paddle> &paddles, int frameWidth, int frameHeight)
-    {
-        //
+    void resetBallAfterCollision(sf::RenderWindow &window,std::vector<paddle> &paddles, int frameWidth,\
+                                 int frameHeight , sf::Font &font, int score)
+    {   
+        score +=1;
         if (circle.getPosition().x > paddles[0].rectangule.getPosition().x + 2*circle.getRadius())
         {
             circle.setPosition(x = frameWidth+vx, frameHeight);
@@ -181,6 +208,7 @@ public:
         }
     }    
 
+
 };
 
 int main()
@@ -188,11 +216,6 @@ int main()
     // Setting game frame size
     int frameWidth = 800;
     int frameHeight = 500;
-
-    // Setting players scores
-    int player1score = 0;
-    int player2score = 0;
-    int tag  = 0;
 
     // Loading font file and alert in case the font is not found
     sf::Font font;
@@ -208,7 +231,33 @@ int main()
     pause.setFont(font);
     pause.setString("Pause");
 
+    sf::Text versus;
+    versus.setCharacterSize(22);
+    versus.setFillColor(sf::Color::White);
+    versus.setFont(font);
+    versus.setPosition(370,5);
+    versus.setString("VS");
     
+    // Setting players scores via text object
+    int playerscore = 0;
+    int player2score = 0;
+    sf::Text labelScore;
+    labelScore.setCharacterSize(22);
+    labelScore.setFillColor(sf::Color::White);
+    labelScore.setPosition(230,5);
+    labelScore.setFont(font);
+
+    std::ostringstream ssScore;
+    labelScore.setString(ssScore.str());
+
+    sf::Text label2Score;
+    label2Score.setCharacterSize(22);
+    label2Score.setFillColor(sf::Color::White);
+    label2Score.setPosition(450,5);
+    label2Score.setFont(font);
+
+    std::ostringstream ss2Score;
+    label2Score.setString(ss2Score.str());
 
     // Starts the clock
     // NOTE: DAA: I did not understand what clock does.
@@ -228,6 +277,10 @@ int main()
     paddles.push_back(paddleRight);
     paddles.push_back(paddleLeft);
 
+
+    //create player instance
+    Player player1("p2.png");
+    Player player2("p1.png");
     // NOTE: These methods should go within the ball class! 
     //sf::RectangleShape topBorder;
     //topBorder.setSize(sf::Vector2f(frameWidth,paddleLeft.x));
@@ -265,7 +318,6 @@ int main()
         // Still, we need to move these methods to their corresponding classes.
         //float deltaTime = clock.restart().asSeconds();
         //float factor = deltaTime * ballSpeed;
-
 
         // DAA: We need to create a player class and have all these methods inside the player objects.
         unsigned int life_count = 3;
@@ -348,13 +400,21 @@ int main()
         // Clearing the entire window
         window.clear();
 
+        //Draw player sprites
+        player1.drawPlayer(window,325,5, 0.05f,0.05f);
+        window.draw(versus);
+        window.draw(labelScore);
+        window.draw(label2Score);
+
+        player2.drawPlayer(window,405,5,0.09f,0.09f);
         // Drawing the ball
         window.draw(ball1.circle);
+
 
         // Drawing the paddles
         window.draw(paddles[0].rectangule);
         window.draw(paddles[1].rectangule);
-
+        
            
         // Option 2 to move the ball 
         //velocity.x = std::cos(ballAngle)*factor;
@@ -374,13 +434,28 @@ int main()
         //{   velocity.x = -(velocity.x);
         //    ballAngle = -ballAngle;
         //}
-
         
         ball1.updatePos();
         //ball1.collision(paddles, frameWidth, frameHeight);
         ball1.collision(paddles, frameWidth, frameHeight);
+
+        if (ball1.circle.getPosition().x > paddles[0].rectangule.getPosition().x + 2*ball1.circle.getRadius())
+        {   playerscore++;
+            ssScore.str("");
+            ssScore << "Score: " <<playerscore;
+            labelScore.setString(ssScore.str());
+
+            //std::cout <<"Player 1 scored:"<<playerscore << std::endl;
+        }
+        else if (ball1.circle.getPosition().x < paddles[1].rectangule.getPosition().x - 2*ball1.circle.getRadius())
+        {
+           player2score++;
+           ss2Score.str("");
+           ss2Score << "Score: " <<player2score;
+           label2Score.setString(ss2Score.str());
+        }
         //after collision calling the reset ball to restart the game  
-        ball1.resetBallAfterCollision(paddles, frameWidth/2, frameHeight/2);
+        ball1.resetBallAfterCollision(window, paddles, frameWidth/2, frameHeight/2,font, playerscore);
 
         // CK: When scoring we need to create as suggested a player class to store score, text and dispaly it 
         //    and consider adding the pause/restart of the game as well as clock-timer
@@ -412,8 +487,8 @@ int main()
         //       The  "== True" is not needed
         //Pausing the Game
         if ( isGamePause ){
-            pause.setPosition(400,300);
-            ball1.circle.setPosition(450,400);
+            pause.setPosition(350,80);
+            ball1.circle.setPosition(380,150);
             window.draw(pause);
         }
 
