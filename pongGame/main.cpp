@@ -183,7 +183,6 @@ public:
 
 };
 
-
 int main()
 {
     // Setting game frame size
@@ -209,7 +208,7 @@ int main()
     pause.setFont(font);
     pause.setString("Pause");
 
-
+    
 
     // Starts the clock
     // NOTE: DAA: I did not understand what clock does.
@@ -305,15 +304,7 @@ int main()
                     }
                     if(event.key.code == sf::Keyboard::P)  
                     {
-                        isGamePause = !isGamePause;
-                        // DAA: This can also be included within the ball class
-                        //ballSpeed = 0.0f;                      
-                    } 
-                    if(event.key.code == sf::Keyboard::N)  
-                    {
-                        isGamePause = false;
-                        // DAA: This can also be included within the ball class
-                        //ballSpeed = 400.0f;
+                        isGamePause = !isGamePause;                     
                     } 
                 break;
                 
@@ -342,16 +333,16 @@ int main()
         
         // Updating paddles positions
         if (isWPressed){
-            paddles[0].moveUp();
-        }
-        if (isSPressed){
-            paddles[0].moveDown();
-        }
-        if (isOPressed){
             paddles[1].moveUp();
         }
-        if (isLPressed){
+        if (isSPressed){
             paddles[1].moveDown();
+        }
+        if (isOPressed){
+            paddles[0].moveUp();
+        }
+        if (isLPressed){
+            paddles[0].moveDown();
         }
 
         // Clearing the entire window
@@ -419,10 +410,12 @@ int main()
         //       is exactly the same as
         //       if ( booleanVariable ) {}
         //       The  "== True" is not needed
-        //if ( isGamePause ){
-        //    pause.setPosition(300,200);
-        //    window.draw(pause);
-        //}
+        //Pausing the Game
+        if ( isGamePause ){
+            pause.setPosition(400,300);
+            ball1.circle.setPosition(450,400);
+            window.draw(pause);
+        }
 
         // Display window    
         window.display();
